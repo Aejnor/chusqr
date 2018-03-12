@@ -25,9 +25,9 @@ Route::group(['middleware' => 'auth'], function () {
 
     Route::get('/chusqers/create', 'ChusqersController@create');
     Route::post('/chusqers/create', 'ChusqersController@store');
-    Route::delete('/chusqers/like/{chusqer}', 'ChusqersController@unlike');
     Route::post('/chusqers/like/{chusqer}', 'ChusqersController@like');
     Route::get('/chusqers/like/{chusqer}', 'ChusqersController@likeNum');
+    Route::delete('/chusqers/like/{chusqer}', 'ChusqersController@dislike');
     Route::get('/chusqers/{chusqer}/edit', 'ChusqersController@edit')->name('chusqers.edit');
     Route::patch('/chusqers/{chusqer}', 'ChusqersController@patch')->name('chusqers.patch');
     Route::delete('/chusqers/{chusqer}', 'ChusqersController@destroy')->name('chusqers.delete');
