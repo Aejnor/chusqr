@@ -18,7 +18,7 @@ class UsersController extends Controller
 
     public function __construct()
     {
-        $this->middleware( function($request, $next){
+        $this->middleware(function ($request, $next) {
             $this->user = auth()->user();
 
             return $next($request);
@@ -50,7 +50,7 @@ class UsersController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\Request $request
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
@@ -61,7 +61,7 @@ class UsersController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function show($user)
@@ -72,24 +72,24 @@ class UsersController extends Controller
         array_push($followers, $user->id);
         $chusqers = Chusqer::whereIn('user_id', $followers)->latest()->paginate(10);
 
-        if(Auth::user()){
+        if (Auth::user()) {
             $conversation = Conversation::conversationId(Auth::user(), $user);
-        }else{
+        } else {
             $conversation = null;
         }
 
 
         return view('users.index', [
-            'user'          => $user,
-            'chusqers'      => $chusqers,
-            'conversation'  => $conversation
+            'user' => $user,
+            'chusqers' => $chusqers,
+            'conversation' => $conversation
         ]);
     }
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function edit()
@@ -100,27 +100,27 @@ class UsersController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \Illuminate\Http\Request $request
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function update(UpdateUserRequest $request)
     {
         $path = $request->path();
 
-        if( strpos($path, 'account')) {
+        if (strpos($path, 'account')) {
             $data = array_filter($request->all());
             $user = User::findOrFail($this->user->id);
 
             $user->fill($data);
-        }elseif ( strpos($path, 'password') ){
+        } elseif (strpos($path, 'password')) {
 
 
-            if( ! Hash::check($request->get('current_password'), $this->user->password ) ){
+            if (!Hash::check($request->get('current_password'), $this->user->password)) {
                 return redirect()->back()->with('error', 'La constraseña actual no es correcta');
             }
 
-            if( strcmp($request->get('current_password'), $request->get('password')) == 0){
+            if (strcmp($request->get('current_password'), $request->get('password')) == 0) {
                 return redirect()->back()->with('error', 'La nueva contraseña debe ser diferente de la antigua.');
             }
 
@@ -137,7 +137,7 @@ class UsersController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  int $id
      * @return \Illuminate\Http\Response
      */
     public function destroy()
@@ -169,7 +169,7 @@ class UsersController extends Controller
         $user = $this->findUserByUsername($username);
         $followers = $user->followers;
 
-        return view( 'users.follows', [
+        return view('users.follows', [
             'user' => $user,
             'people' => $followers,
         ]);
@@ -229,12 +229,12 @@ class UsersController extends Controller
             'content' => $message,
         ]);
 
-        return redirect('/conversations/'.$conversation->id);
+        return redirect('/conversations/' . $conversation->id);
     }
 
     public function showConversation(Conversation $conversation)
     {
-        if(! $conversation->users()->get()->contains(Auth::user())){
+        if (!$conversation->users()->get()->contains(Auth::user())) {
             return redirect()->route('profile');
         }
 

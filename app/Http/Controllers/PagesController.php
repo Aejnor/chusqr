@@ -12,7 +12,8 @@ class PagesController extends Controller
      *
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function home(){
+    public function home()
+    {
         $chusqers = Chusqer::orderBy('created_at', 'desc')->paginate(10);
 
         return view('home', [
@@ -25,13 +26,14 @@ class PagesController extends Controller
      *
      * @return \Illuminate\Contracts\View\Factory|\Illuminate\View\View
      */
-    public function saludo(){
+    public function saludo()
+    {
         $saludo = "Bienvenidos a ADA-ITS";
         $usuario = "Fran";
 
         return view('saludo', [
             'saludo' => $saludo,
-            'usuario'=> $usuario
+            'usuario' => $usuario
         ]);
     }
 }

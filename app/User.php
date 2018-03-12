@@ -43,7 +43,7 @@ class User extends Authenticatable
      */
     public function follows()
     {
-       return $this->belongsToMany(User::class, 'followers', 'user_id', 'followed_id');
+        return $this->belongsToMany(User::class, 'followers', 'user_id', 'followed_id');
     }
 
     /**
@@ -79,6 +79,12 @@ class User extends Authenticatable
     public function amI()
     {
         return Auth::user()->id == $this->id;
+    }
+
+
+    public function like()
+    {
+        return $this->belongsToMany(Chusqer::class, 'likes', 'user_id', 'chusqr_id');
     }
 
 }

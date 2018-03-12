@@ -49,4 +49,9 @@ class Chusqer extends Model
         return $this->toArray();
     }
 
+    public function like()
+    {
+        return $this->belongsToMany(User::class, 'likes', 'chusqr_id', 'user_id');
+    }
+
 }
